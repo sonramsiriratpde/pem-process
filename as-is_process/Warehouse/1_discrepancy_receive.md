@@ -35,9 +35,9 @@ swimlane-beta TB
 
   %% Success Flows
   start e1@--> connector
-  connector --> verification
-  verification e2@-->|Pass| received
-  received e3@--> done
+  connector e2@--> verification
+  verification e3@-->|Pass| received
+  received e4@--> done
 
   %% Revise PO
   verification -->|Fail| discrepancy_received
@@ -53,6 +53,7 @@ swimlane-beta TB
   e1@{ animate: true, stroke}
   e2@{ animate: true, stroke}
   e3@{ animate: true, stroke}
+  e4@{ animate: true, stroke}
 
   classDef attention fill:#fff2cc,stroke:#333,stroke-width:2px;
   class start attention;

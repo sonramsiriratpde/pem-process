@@ -17,7 +17,7 @@ swimlane-beta TB
     done([เสร็จสิ้น])
 
     %% Fail
-    discrepancy_received{รับ RM ตามจำนวน Supplier}
+    discrepancy_received[รับ RM ตามจำนวน Supplier]
 
     %% Connector
     connector{ }

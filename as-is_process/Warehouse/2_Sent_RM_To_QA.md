@@ -22,7 +22,7 @@ swimlane-beta TB
 
   %% Success Flows
   start e1@--> sent
-  sent e2@--> received_warehouse
+  sent e2@-->|Internal Transfer| received_warehouse
   received_warehouse e3@--> done
 
   classDef attention fill:#fff2cc;

@@ -1,0 +1,65 @@
+# Purchase
+
+**Follow to lean approach:**
+
+1. Keep it High-Level: Focus only on the "happy path"  (the main successful workflow)
+2. Use Simple Shapes: Stick to basic rectangles for step and diamonns for decisions. Avoid overly strict BPMN or UML notation rules that require extra explanation.
+
+## กระบวนการจัดทำใบลดหนี้
+
+```mermaid
+%% กระบวนการจัดทำใบลดหนี้
+swimlane-beta TB
+
+  subgraph Purchase
+    start([เริ่มต้น])
+    claim_rm[แจ้งผลการตรวจสอบและให้ทำใบลดหนี้]
+    received_credit_note[รับใบลดหนี้]
+    verify_credit_note{ตรวจสอบใบลดหนี้}
+    done([สิ้นสุด])
+
+    %% Failure Flows
+    notify_fail[แจ้งผลการตรวจสอบไม่ผ่าน]
+  end
+
+  subgraph Vendor/Supplier
+    received_notify[รับทราบผลการตรวจสอบ]
+    credit_note_issue[จัดทำใบลดหนี้]
+    sent_credit_note[ส่งใบลดหนี้]
+
+    %% Failure Flows
+    revise_credit_note[แก้ไขใบลดหนี้]
+  end
+
+  %% Success Flows
+  start e1@--> claim_rm
+  claim_rm e2@--> received_notify
+  received_notify e3@--> credit_note_issue
+  credit_note_issue e4@--> sent_credit_note
+  sent_credit_note e5@--> received_credit_note
+  received_credit_note e6@--> verify_credit_note
+  verify_credit_note e7@-->|Pass| done
+
+  %% Failure Flows
+  verify_credit_note -->|Fail| notify_fail
+  notify_fail --> revise_credit_note
+  revise_credit_note --> sent_credit_note
+
+  classDef attention fill:#fff2cc;
+  class start attention;
+  class claim_rm attention;
+  class received_notify attention;
+  class credit_note_issue attention;
+  class sent_credit_note attention;
+  class received_credit_note attention;
+  class verify_credit_note attention;
+  class done attention;
+
+  e1@{ animate: true}
+  e2@{ animate: true}
+  e3@{ animate: true}
+  e4@{ animate: true}
+  e5@{ animate: true}
+  e6@{ animate: true}
+  e7@{ animate: true}
+```

@@ -1,10 +1,11 @@
 # Warehouse (Inbound)
 
 **Follow to lean approach:**
+
 1. Keep it High-Level: Focus only on the "happy path"  (the main successful workflow)
 2. Use Simple Shapes: Stick to basic rectangles for step and diamonns for decisions. Avoid overly strict BPMN or UML notation rules that require extra explanation.
 
-## กระบวนการรับของ
+## กระบวนการรับ RM
 
 ```mermaid
 %% กระบวนการรับ RM ตามที่ Supplier จัดส่ง

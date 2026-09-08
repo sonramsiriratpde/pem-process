@@ -1,10 +1,11 @@
 # Warehouse (Inbound)
 
 **Follow to lean approach:**
+
 1. Keep it High-Level: Focus only on the "happy path"  (the main successful workflow)
 2. Use Simple Shapes: Stick to basic rectangles for step and diamonns for decisions. Avoid overly strict BPMN or UML notation rules that require extra explanation.
 
-## กระบวนการรับของ
+## กระบวนการรับ RM
 
 ```mermaid
 %% กระบวนการรับ RM ตามที่ Supplier จัดส่ง
@@ -17,7 +18,7 @@ swimlane-beta TB
     done([เสร็จสิ้น])
 
     %% Fail
-    discrepancy_received{รับ RM ตามจำนวน Supplier}
+    discrepancy_received[รับ RM ตามจำนวน Supplier]
 
     %% Connector
     connector{ }
@@ -35,9 +36,9 @@ swimlane-beta TB
 
   %% Success Flows
   start e1@--> connector
-  connector --> verification
-  verification e2@-->|Pass| received
-  received e3@--> done
+  connector e2@--> verification
+  verification e3@-->|Pass| received
+  received e4@--> done
 
   %% Revise PO
   verification -->|Fail| discrepancy_received
@@ -53,6 +54,7 @@ swimlane-beta TB
   e1@{ animate: true, stroke}
   e2@{ animate: true, stroke}
   e3@{ animate: true, stroke}
+  e4@{ animate: true, stroke}
 
   classDef attention fill:#fff2cc,stroke:#333,stroke-width:2px;
   class start attention;

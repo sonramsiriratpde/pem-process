@@ -1,0 +1,81 @@
+# Warehouse
+
+## กระบวนโอนย้ายวัตถุดิบการผลิต
+
+**Follow to lean approach:**
+1. Keep it High-Level: Focus only on the "happy path"  (the main successful workflow)
+2. Use Simple Shapes: Stick to basic rectangles for step and diamonns for decisions. Avoid overly strict BPMN or UML notation rules that require extra explanation.
+
+```mermaid
+%% กระบวนโอนย้ายวัตถุดิบการผลิต
+swimlane-beta TB
+
+  subgraph Production
+    start([เริ่มต้น])
+    claim_rm[ขอเบิก RM]
+    received_notify[สร้างใบเบิก]
+    credit_note_issue[พิมพ์ใบเบิก]
+    sent_credit_note[ส่งใบเบิก]
+    received_rm[รับ RM จากคลัง]
+    record_rm[บันทึกข้อมูลการรับ RM]
+    done([สิ้นสุด])
+
+  end
+
+  subgraph Warehouse
+    received_credit_note[รับใบเบิก]
+    verify_credit_note{ตรวจสอบจำนวน RM}
+    allocate_stock[หยิบของตามจำนวน]
+    record_stock[บันทึกข้อมูลการเบิก RM]
+    stock_out[ส่งใบเบิกพร้อม RM ออกจากคลัง]
+
+    %% Failure Flows
+    notify_fail[หยิบของตามจำนวนคงเหลือ]
+  end
+
+  %% Success Flows
+  start e1@--> claim_rm
+  claim_rm e2@--> received_notify
+  received_notify e3@--> credit_note_issue
+  credit_note_issue e4@--> sent_credit_note
+  sent_credit_note e5@--> received_credit_note
+  received_credit_note e6@--> verify_credit_note
+  verify_credit_note e7@-->|Pass| allocate_stock
+  allocate_stock e8@--> record_stock
+  record_stock e9@--> stock_out
+  stock_out e10@--> received_rm
+  received_rm e11@--> record_rm
+  record_rm e12@--> done
+
+  %% Failure Flows
+  verify_credit_note -->|Fail| notify_fail
+  notify_fail --> record_stock
+
+  classDef attention fill:#fff2cc;
+  class start attention;
+  class claim_rm attention;
+  class received_notify attention;
+  class credit_note_issue attention;
+  class sent_credit_note attention;
+  class received_credit_note attention;
+  class verify_credit_note attention;
+  class allocate_stock attention;
+  class record_stock attention;
+  class stock_out attention;
+  class received_rm attention;
+  class record_rm attention;
+  class done attention;
+
+  e1@{ animate: true}
+  e2@{ animate: true}
+  e3@{ animate: true}
+  e4@{ animate: true}
+  e5@{ animate: true}
+  e6@{ animate: true}
+  e7@{ animate: true}
+  e8@{ animate: true}
+  e9@{ animate: true}
+  e10@{ animate: true}
+  e11@{ animate: true}
+  e12@{ animate: true}
+```

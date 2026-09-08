@@ -16,22 +16,26 @@ swimlane-beta TB
   end
 
   subgraph QA
+    verification{ตรวจสอบความถูกต้อง}
     received_warehouse[รับ RM จาก Warehouse]
     done([สิ้นสุด])
   end
 
   %% Success Flows
   start e1@--> sent
-  sent e2@-->|Internal Transfer| received_warehouse
-  received_warehouse e3@--> done
+  sent e2@-->|Internal Transfer| verification
+  verification e3@-->|Pass| received_warehouse
+  received_warehouse e4@--> done
 
   classDef attention fill:#fff2cc;
   class start attention;
   class sent attention;
+  class verification attention;
   class received_warehouse attention;
   class done attention;
 
-  e1@{ animate: true, stroke}
-  e2@{ animate: true, stroke}
-  e3@{ animate: true, stroke}
+  e1@{ animate: true}
+  e2@{ animate: true}
+  e3@{ animate: true}
+  e4@{ animate: true}
 ```

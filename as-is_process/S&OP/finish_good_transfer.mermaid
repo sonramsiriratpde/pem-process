@@ -1,49 +1,35 @@
 %% Internal Transfer Process Flow
 swimlane-beta TB
 
-  subgraph Business Unit
+  subgraph S&OP
     start([เริ่มต้น])
-    a1[Create Internal Transfer Request]
-    a2{Forecast Availability}
-    a3[Mark as Todo]
-    a8[Scan a product]
-    a9{Validate}
-    
+    a1[ขอย้าย FG]
+    a2[ตรวจสอบจำนวนคงคลัง]
+    a3{FG เพียงพอโอนย้ายหรือไม่}
+    a4[สร้างรายการโอนย้าย]
+    a5[ทำการโอนย้าย]
+    a6[ใบโอนย้ายสินค้าระหว่างคลัง]
     done([สิ้นสุด])
-  end
-
-  subgraph Warehouse
-    a4[Picking Operations]
-    a5[Define Package and Quantity]
-    a6{Check Availability}
-    a7[Delivery Operations]
   end
 
   %% Success Flows
   start e1@--> a1
   a1 e2@--> a2
-  a2 e3@-->|Available| a3
-  a3 e4@-->|Status: Waiting| a4
+  a2 e3@--> a3
+  a3 e4@--> a4
   a4 e5@--> a5
   a5 e6@--> a6
-  a6 e7@-->|Status: Ready| a7
-  a7 e8@-->|Delivered| a8
-  a8 e10@--> a9
-  a9 e9@-->|Status: Done| done
+  a6 e7@--> done
 
   classDef attention fill:#fff2cc;
   class start attention;
+  class done attention;
   class a1 attention;
   class a2 attention;
   class a3 attention;
   class a4 attention;
   class a5 attention;
   class a6 attention;
-  class a7 attention;
-  class a8 attention;
-  class a9 attention;
-  class a10 attention;
-  class done attention;
 
   e1@{ animate: true}
   e2@{ animate: true}
@@ -52,6 +38,3 @@ swimlane-beta TB
   e5@{ animate: true}
   e6@{ animate: true}
   e7@{ animate: true}
-  e8@{ animate: true}
-  e9@{ animate: true}
-  e10@{ animate: true}

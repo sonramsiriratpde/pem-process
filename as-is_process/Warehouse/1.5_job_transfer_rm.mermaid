@@ -1,0 +1,45 @@
+swimlane-beta TB
+
+  subgraph Production
+    start([เริ่มต้น])
+    a1[สร้างรายการโอน Job]
+    a2[ส่งใบรายการโอน Job]
+    
+    %% Failure Flows
+    a6[แก้ไขรายการโอน Job]
+  end
+
+  subgraph Warehouse
+    a3{รายการโอน RM ข้าม Job ถูกต้องหรือไม่}
+    a4[สร้างรายการโอนย้าย RM]
+    a5[โอนย้าย RM]
+    done([สิ้นสุด])
+  end
+
+  %% Success Flows
+  start e1@--> a1
+  a1 e2@--> a2
+  a2 e3@--> a3
+  a3 e4@-->| ถูกต้อง | a4
+  a4 e5@--> a5
+  a5 e6@--> done
+
+  %% Failure Flows
+  a3 -->| ไม่ถูกต้อง | a6
+  a6 --> a2
+
+  classDef attention fill:#fff2cc;
+  class start attention;
+  class done attention;
+  class a1 attention;
+  class a2 attention;
+  class a3 attention;
+  class a4 attention;
+  class a5 attention;
+
+  e1@{ animate: true}
+  e2@{ animate: true}
+  e3@{ animate: true}
+  e4@{ animate: true}
+  e5@{ animate: true}
+  e6@{ animate: true}

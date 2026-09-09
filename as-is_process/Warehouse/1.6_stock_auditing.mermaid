@@ -1,0 +1,64 @@
+swimlane-beta TB
+
+  subgraph Warehouse
+    start([เริ่มต้น])
+    a1[พิมพ์ Stock Report]
+    a2[ตรวจรายการ Stock]
+    a3{Stock ถูกต้องหรือไม่}
+    a4[พิมพ์ใบปะหน้าการนับ Stock]
+    a5[ใบปะหน้า]
+    a6[ติดใบการรับ Stock ที่ RM]
+    done([สิ้นสุด])
+    
+    %% Failure Flows
+    a7[จัดทำ Memo ขอปรับปรุงรายการ Stock]
+
+    %% Failure Flows
+    a12[แก้ไข Memo]
+  end
+
+  subgraph Accounting
+    a8[ตรวขสอบ Memo ขอปรับปรุงรายการ]
+    a9{Memo ถูกต้องหรือไม่}
+    a10[ปรับปรุงรายการ Stock]
+
+    %% Failure Flows
+    a11[แจ้งแก้ไข Memo]
+  end
+
+  %% Success Flows
+  start e1@--> a1
+  a1 e2@--> a2
+  a2 e3@--> a3
+  a3 e4@-->| ถูกต้อง | a4
+  a4 e5@--> a5
+  a5 e6@--> a6
+  a6 e7@--> done
+
+  %% Failure Flows
+  a3 -->| ไม่ถูกต้อง | a7
+  a7 --> a8
+  a8 -->| ถูกต้อง | a9
+  a9 -->| ถูกต้อง | a10
+  a10 e11@--> done
+
+  %% Failure Flows
+  a9 -->| ไม่ถูกต้อง | a11
+  a11 --> a12
+  a12 --> a8
+
+  classDef attention fill:#fff2cc;
+  class start attention;
+  class done attention;
+  class a1 attention;
+  class a2 attention;
+  class a3 attention;
+  class a4 attention;
+  class a5 attention;
+
+  e1@{ animate: true}
+  e2@{ animate: true}
+  e3@{ animate: true}
+  e4@{ animate: true}
+  e5@{ animate: true}
+  e6@{ animate: true}

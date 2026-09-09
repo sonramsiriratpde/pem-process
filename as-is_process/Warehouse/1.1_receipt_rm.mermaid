@@ -1,0 +1,125 @@
+swimlane-beta TB
+
+  subgraph Supplier
+    start([เริ่มต้น])
+    a1[ส่ง RM]
+
+    %% Failure Flows (Invalid Invoice)
+    a13[แก้ไขเอกสาร]
+
+    %% Failure Flows (Quality Fail)
+    a19[รับทราบผล Fail RM]
+    a20{ต้องการเคลม RM หรือไม่}
+    a21[ส่ง RM ทดแทน]
+
+    %% Failure Flows (Debit Note)
+    a24[แจ้งให้ฝ่ายจัดซื้อทราบ]
+    a25[จัดทำใบลดหนี้ และส่งให้ฝ่ายจัดซื้อ]
+  end
+  
+  subgraph Warehouse
+    a2[ตรวจสอบข้อมูล Invoice และ Product]
+    a3{ข้อมูลถูกต้องหรือไม่}
+    a4{จำนวน RM ถูกต้องหรือไม่}
+    a5[รับ RM]
+    a6[ส่ง RM ไปยัง QC]
+
+    %% Failure Flows (Invalid Invoice)
+    a12[แจ้ง Supplier]
+
+    %% Failure Flows (Invalid RM)
+    a14{รับ RM ตาม Invoice หรือไม่}
+    a15[แจ้งจัดซื้อ Revise PO]
+
+    %% Failure Flows (Quality Fail)
+    a22[รับ RM]
+    a23[ปิดงาน]
+  end
+
+  subgraph QA
+    a7[รับ RM]
+    a8[ตรวจสอบคุณภาพ RM]
+    a9{ตรวจสอบคุณภาพ RM ผ่านหรือไม่}
+    a10[ติด Tag Pass]
+    a11[ส่ง RM ไปคลัง Main]
+    done([สิ้นสุด])
+
+    %% Failure Flows (Quality Fail)
+    a17[แจ้งผล Fail ให้ฝ่ายจัดซื้อ]
+  end
+
+  subgraph Purchase
+    a16[[Revise PO]]
+
+    %% Failure Flows (Quality Fail)
+    a18[แจ้งผลตรวจสอบ RM กับ Supplier]
+  end
+
+  %% Success Flows
+  start e1@--> a1
+  a1 e2@--> a2
+  a2 e3@--> a3
+  a3 e4@-->| Pass | a4
+  a4 e5@-->| Pass | a5
+  a5 e6@--> a6
+  a6 e7@--> a7
+  a7 e8@--> a8
+  a8 e9@--> a9
+  a9 e10@-->| Pass | a10
+  a10 e11@--> a11
+  a11 e12@--> done
+
+  %% Failure Flows (Invalid Invoice)
+  a3 -->| Fail | a12
+  a12 -->| Fail | a13
+  a13 --> a2
+
+  %% Failure Flows (Invalid RM)
+  a4 -->| Fail | a14
+  a14 --> a15
+  a15 --> a16
+  a16 --> a5
+
+  %% Failure Flows (Quality Fail)
+  a9 --> a17
+  a17 --> a18
+  a18 --> a19
+  a19 --> a20
+  a20 -->| Yes | a21
+  a21 --> a22
+  a22 --> a23
+  a23 --> done
+
+  %% Failure Flows (Debit Note)
+  a20 -->| Debit Note | a24
+  a24 --> a25
+  a25 --> a23
+
+  classDef attention fill:#fff2cc,stroke:#333,stroke-width:2px;
+  class start attention;
+  class done attention;
+  
+  class a1 attention;
+  class a2 attention;
+  class a3 attention;
+  class a4 attention;
+  class a5 attention;
+  class a6 attention;
+  class a7 attention;
+  class a8 attention;
+  class a9 attention;
+  class a10 attention;
+  class a11 attention;
+
+  e1@{ animate: true, stroke}
+  e2@{ animate: true, stroke}
+  e3@{ animate: true, stroke}
+  e4@{ animate: true, stroke}
+  e5@{ animate: true, stroke}
+  e6@{ animate: true, stroke}
+  e7@{ animate: true, stroke}
+  e8@{ animate: true, stroke}
+  e9@{ animate: true, stroke}
+  e10@{ animate: true, stroke}
+  e11@{ animate: true, stroke}
+  e12@{ animate: true, stroke}

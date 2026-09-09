@@ -1,0 +1,41 @@
+swimlane-beta TB
+
+  subgraph Warehouse
+    start([เริ่มต้น])
+    done([สิ้นสุด])
+
+    a1[แจ้งจัดซื้อ Revise PO]
+    a4[รับแจ้ง Revise PO]
+    a5[รับ RM]
+  end
+
+  subgraph Purchase
+    a2[Revise PO]
+    a3[แจ้ง Warehouse]
+  end
+
+  %% Success Flows
+  start e1@--> a1
+  a1 e2@--> a2
+  a2 e3@--> a3
+  a3 e4@--> a4
+  a4 e5@--> a5
+  a5 e6@--> done
+
+
+  classDef attention fill:#fff2cc,stroke:#333,stroke-width:2px;
+  class start attention;
+  class done attention;
+  
+  class a1 attention;
+  class a2 attention;
+  class a3 attention;
+  class a4 attention;
+  class a5 attention;
+
+  e1@{ animate: true}
+  e2@{ animate: true}
+  e3@{ animate: true}
+  e4@{ animate: true}
+  e5@{ animate: true}
+  e6@{ animate: true}

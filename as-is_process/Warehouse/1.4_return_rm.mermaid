@@ -1,0 +1,69 @@
+swimlane-beta TB
+
+  subgraph Production
+    start([เริ่มต้น])
+    a1[สร้างใบส่งคืนวัตถุดิบ]
+    a2[พิมพ์ Tag RM]
+    a3[ส่งใบส่งสินคืนวัตถุดิบ]
+  end
+
+  subgraph Warehouse
+    a4[ใบรับวัตถุดิบ]
+    a5{เอกสารส่งคืนถูกต้อง}
+    a6[สร้างรายการโอนย้าย RM]
+    a7[บันทึกการโอนย้าย RM]
+    a8{FG เพียงพอโอนย้ายหรือไม่}
+    a9[ใบโอน RM]
+    a10[เซ็นต์รับทราบใบโอน RM]
+    done([สิ้นสุด])
+
+    %% Failure Flows
+    a11[ส่งใบส่งคืนวัตถุดิบ]
+    a12[ใบวัตถุดิบ]
+    a13[แก้ไขเอกสารส่งคืนวัตถุดิบ]
+  end
+
+  %% Success Flows
+  start e1@--> a1
+  a1 e2@--> a2
+  a2 e3@--> a3
+  a3 e4@--> a4
+  a4 e5@--> a5
+  a5 e6@--> a6
+  a6 e7@--> a7
+  a7 e8@--> a8
+  a8 e9@--> a9
+  a9 e10@--> a10
+  a10 e11@--> done
+
+  %% Failure Flows
+  a5 --> a11
+  a11 --> a12
+  a12 --> a13
+  a13 --> a3
+
+  classDef attention fill:#fff2cc;
+  class start attention;
+  class done attention;
+  class a1 attention;
+  class a2 attention;
+  class a3 attention;
+  class a4 attention;
+  class a5 attention;
+  class a6 attention;
+  class a7 attention;
+  class a8 attention;
+  class a9 attention;
+  class a10 attention;
+
+  e1@{ animate: true}
+  e2@{ animate: true}
+  e3@{ animate: true}
+  e4@{ animate: true}
+  e5@{ animate: true}
+  e6@{ animate: true}
+  e7@{ animate: true}
+  e8@{ animate: true}
+  e9@{ animate: true}
+  e10@{ animate: true}
+  e11@{ animate: true}

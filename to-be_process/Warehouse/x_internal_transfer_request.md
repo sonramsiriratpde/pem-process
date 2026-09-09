@@ -22,7 +22,7 @@ swimlane-beta TB
   end
 
   subgraph Warehouse
-    a4[Picking Operations]
+    a4[[Picking Operations]]
     a5[Define Package and Quantity]
     a6{Check Availability}
     a7[Delivery Operations]

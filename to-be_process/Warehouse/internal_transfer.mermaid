@@ -1,0 +1,58 @@
+%% Internal Transfer & Job Requisition (To-Be Lean Odoo 19)
+swimlane-beta TB
+
+  subgraph Production
+    start([เริ่มต้น])
+    a1[Create Internal Transfer Request]
+    a2{Forecast Availability}
+    a3[Mark as Todo]
+    a8[Scan / Receive Product]
+    a9{Validate Transfer}
+    done([สิ้นสุด])
+  end
+
+  subgraph Warehouse
+    a4[[Picking Operations]]
+    a5[Define Package and Quantity]
+    a6{Check Availability}
+    a7[Delivery Operations]
+  end
+
+  %% Success Flows
+  start e1@--> a1
+  a1 e2@--> a2
+  a2 e3@-->| Available | a3
+  a3 e4@-->| Status: Waiting | a4
+  a4 e5@--> a5
+  a5 e6@--> a6
+  a6 e7@-->| Status: Ready | a7
+  a7 e8@-->| Delivered | a8
+  a8 e10@--> a9
+  a9 e9@-->| Status: Done | done
+
+  %% Shortage Exception Flow
+  a2 -->| Not Available | a1
+
+  classDef attention fill:#fff2cc,stroke:#333,stroke-width:2px;
+  class start attention;
+  class done attention;
+  class a1 attention;
+  class a2 attention;
+  class a3 attention;
+  class a4 attention;
+  class a5 attention;
+  class a6 attention;
+  class a7 attention;
+  class a8 attention;
+  class a9 attention;
+
+  e1@{ animate: true}
+  e2@{ animate: true}
+  e3@{ animate: true}
+  e4@{ animate: true}
+  e5@{ animate: true}
+  e6@{ animate: true}
+  e7@{ animate: true}
+  e8@{ animate: true}
+  e9@{ animate: true}
+  e10@{ animate: true}

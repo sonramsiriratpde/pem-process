@@ -1,0 +1,56 @@
+%% Stock Auditing & Inventory Adjustment (To-Be Lean Odoo 19)
+swimlane-beta TB
+
+  subgraph Warehouse
+    start([เริ่มต้น])
+    done([สิ้นสุด])
+
+    wh1[Initiate Physical Inventory]
+    wh2[Count & Scan via Barcode]
+    wh3{Discrepancy Found?}
+    wh4[Confirm Stock Balance]
+    wh5[Submit Inventory Adjustment]
+  end
+
+  subgraph Accounting
+    acc1{Approve Adjustment?}
+    acc2[Apply Adjustment & Post Valuation]
+    acc3[Request Recount]
+  end
+
+  %% Success Flows (Balanced count)
+  start e1@--> wh1
+  wh1 e2@--> wh2
+  wh2 e3@--> wh3
+  wh3 e4@-->| No Difference | wh4
+  wh4 e5@--> done
+
+  %% Discrepancy Flow & Accounting Approval
+  wh3 -->| Discrepancy | wh5
+  wh5 -->| Request Approval | acc1
+  acc1 e6@-->| Approved | acc2
+  acc2 e7@-->| Auto-Post Valuation | done
+
+  %% Recount Exception Flow
+  acc1 -->| Reject / Recount | acc3
+  acc3 -->| Notify Recount | wh2
+
+  classDef attention fill:#fff2cc,stroke:#333,stroke-width:2px;
+  class start attention;
+  class done attention;
+  class wh1 attention;
+  class wh2 attention;
+  class wh3 attention;
+  class wh4 attention;
+  class wh5 attention;
+  class acc1 attention;
+  class acc2 attention;
+  class acc3 attention;
+
+  e1@{ animate: true}
+  e2@{ animate: true}
+  e3@{ animate: true}
+  e4@{ animate: true}
+  e5@{ animate: true}
+  e6@{ animate: true}
+  e7@{ animate: true}

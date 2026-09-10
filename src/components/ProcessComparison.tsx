@@ -86,6 +86,37 @@ const COMPARISON_PAIRS: ComparisonPair[] = [
     ],
     leanWasteReduced: ['Waiting for paper slips', 'Manual entry errors'],
     stepReductionPct: 60
+  },
+  {
+    id: 'stock-auditing-flow',
+    title: 'Stock Auditing & Physical Inventory',
+    titleTh: 'การตรวจนับสต็อกและปรับปรุงยอดสินค้าคงคลัง',
+    description: 'Replaces 14 manual steps (paper memos, manual counting, and accounting reconciliation) with Odoo 19 mobile barcode cycle counts and automated inventory valuation adjustment.',
+    asIsId: 'as-is_process-warehouse-1-6_stock_auditing-mermaid',
+    toBeId: 'to-be_process-stock_auditing-mermaid',
+    improvements: [
+      'Eliminated manual paper memo generation and cross-department revision cycles.',
+      'Mobile barcode scanning directly on warehouse storage bins.',
+      'Real-time comparison between Counted Quantity and On-Hand stock.',
+      'Automatic inventory loss/gain stock moves and journal entry posting upon approval.'
+    ],
+    leanWasteReduced: ['Overprocessing', 'Waiting for Paper Memos', 'Manual Inventory Re-counts'],
+    stepReductionPct: 60
+  },
+  {
+    id: 'job-transfer-flow',
+    title: 'Job Transfer RM & Internal Requisition',
+    titleTh: 'การโอนย้ายวัตถุดิบข้าม Job / การเบิกจ่ายภายใน',
+    description: 'Shifts from physical paper transfer documents to real-time Odoo Internal Transfer picking routes between production jobs.',
+    asIsId: 'as-is_process-warehouse-1-5_job_transfer_rm-mermaid',
+    toBeId: 'to-be_process-internal_transfer-mermaid',
+    improvements: [
+      'Automated availability checking across warehouse locations and production jobs.',
+      'Barcode scanning at picking and delivery to job work centers.',
+      'Instant stock location updates without manual paperwork.'
+    ],
+    leanWasteReduced: ['Transportation', 'Waiting Time', 'Paperwork Waste'],
+    stepReductionPct: 50
   }
 ];
 

@@ -312,16 +312,50 @@ export const PROCESS_ITEMS: ProcessItem[] = [
     "filename": "return_goods.mermaid",
     "title": "Return Goods to Vendor (To-Be)",
     "titleTh": "การส่งคืนสินค้าให้แก่ Supplier / Vendor",
-    "summary": "Standardized return workflow with debit note and vendor credit note reconciliation.",
+    "summary": "Standardized return workflow with delivery orders and vendor validation.",
     "category": "to-be",
-    "department": "General",
+    "department": "Warehouse",
     "type": "mermaid",
     "lanes": [
-      "Return",
+      "Delivery Orders",
       "Vendor/Supplier"
     ],
     "stepCount": 9,
-    "content": "swimlane-beta TB\n  subgraph Return\n    start([เริ่มต้น])\n    done([สิ้นสุด])\n\n    rt1[[Goods Receipt]]\n    rt2[Return]\n    rt3[Specify Quantity]\n    \n    %% Return for Exchange\n    rt4{Return for\n    Exchange}\n    rt5[Create Goods Receipt]\n    rt6[Validate]\n\n    %% Return\n  end\n\n  subgraph Vendor/Supplier\n    sup1[Signature]\n  end\n\n  %% Create backorder\n  start e1@--> rt1\n  rt1 e2@-->| Status: Done | rt2\n  rt2 e3@--> rt3\n  rt3 --> rt4\n  rt4 --> rt5\n  rt5 -->| WH/OUT | sup1\n\n  classDef attention fill:#fff2cc;\n  class start attention;\n  class done attention;\n\n  class rt1 attention;\n  class rt2 attention;\n  class rt3 attention;\n\n  e1@{ animate: true}\n  e2@{ animate: true}\n  e3@{ animate: true}"
+    "content": "swimlane-beta TB\n\n  subgraph Delivery Orders\n    start([เริ่มต้น])\n    done([สิ้นสุด])\n\n    rt1[[Goods Receipt]]\n    rt2[Specify Quantity]\n    \n    %% Return for Exchange\n    rt3{Return \n    for Exchange}\n    rt4[Create Goods Receipt]\n\n    %% Return\n    rt5[Return]\n  end\n\n  subgraph Vendor/Supplier\n    sup1[Validate]\n    sup2[Signature]\n  end\n\n  start e1@--> rt1\n  rt1 e2@-->| Status: Done | rt2\n  rt2 e3@--> rt3\n  rt3 --> rt4\n  \n  %% Return for Exchange\n  rt4 -->| Yes | rt5\n  rt5 -->| WH/OUT | sup1\n  sup1 -->| Delivery Note | sup2\n  sup2 --> done\n\n  %% Return\n  rt3 -->| No | rt5\n\n  classDef attention fill:#fff2cc;\n  class start attention;\n  class done attention;\n\n  class rt1 attention;\n  class rt2 attention;\n  class rt3 attention;\n\n  e1@{ animate: true}\n  e2@{ animate: true}\n  e3@{ animate: true}"
+  },
+  {
+    "id": "to-be_process-stock_auditing-mermaid",
+    "filePath": "to-be_process/stock_auditing.mermaid",
+    "filename": "stock_auditing.mermaid",
+    "title": "Stock Auditing & Inventory Adjustment (To-Be)",
+    "titleTh": "การตรวจนับและปรับปรุงยอดสินค้าคงคลัง (Physical Inventory)",
+    "summary": "Lean cycle counting using mobile barcode scanning and automated accounting inventory valuation adjustment.",
+    "category": "to-be",
+    "department": "Warehouse",
+    "type": "mermaid",
+    "lanes": [
+      "Warehouse",
+      "Accounting"
+    ],
+    "stepCount": 8,
+    "content": "%% Stock Auditing & Inventory Adjustment (To-Be Lean Odoo 19)\nswimlane-beta TB\n\n  subgraph Warehouse\n    start([เริ่มต้น])\n    done([สิ้นสุด])\n\n    wh1[Initiate Physical Inventory]\n    wh2[Count & Scan via Barcode]\n    wh3{Discrepancy Found?}\n    wh4[Confirm Stock Balance]\n    wh5[Submit Inventory Adjustment]\n  end\n\n  subgraph Accounting\n    acc1{Approve Adjustment?}\n    acc2[Apply Adjustment & Post Valuation]\n    acc3[Request Recount]\n  end\n\n  %% Success Flows (Balanced count)\n  start e1@--> wh1\n  wh1 e2@--> wh2\n  wh2 e3@--> wh3\n  wh3 e4@-->| No Difference | wh4\n  wh4 e5@--> done\n\n  %% Discrepancy Flow & Accounting Approval\n  wh3 -->| Discrepancy | wh5\n  wh5 -->| Request Approval | acc1\n  acc1 e6@-->| Approved | acc2\n  acc2 e7@-->| Auto-Post Valuation | done\n\n  %% Recount Exception Flow\n  acc1 -->| Reject / Recount | acc3\n  acc3 -->| Notify Recount | wh2\n\n  classDef attention fill:#fff2cc,stroke:#333,stroke-width:2px;\n  class start attention;\n  class done attention;\n  class wh1 attention;\n  class wh2 attention;\n  class wh3 attention;\n  class wh4 attention;\n  class wh5 attention;\n  class acc1 attention;\n  class acc2 attention;\n  class acc3 attention;\n\n  e1@{ animate: true}\n  e2@{ animate: true}\n  e3@{ animate: true}\n  e4@{ animate: true}\n  e5@{ animate: true}\n  e6@{ animate: true}\n  e7@{ animate: true}"
+  },
+  {
+    "id": "to-be_process-internal_transfer-mermaid",
+    "filePath": "to-be_process/internal_transfer.mermaid",
+    "filename": "internal_transfer.mermaid",
+    "title": "Internal Transfer & Job Requisition (To-Be)",
+    "titleTh": "การโอนย้ายและเบิกจ่ายสินค้าภายใน (Internal Transfer)",
+    "summary": "Lean internal picking and route-based movement between manufacturing jobs and warehouse locations.",
+    "category": "to-be",
+    "department": "Warehouse",
+    "type": "mermaid",
+    "lanes": [
+      "Production",
+      "Warehouse"
+    ],
+    "stepCount": 9,
+    "content": "%% Internal Transfer & Job Requisition (To-Be Lean Odoo 19)\nswimlane-beta TB\n\n  subgraph Production\n    start([เริ่มต้น])\n    a1[Create Internal Transfer Request]\n    a2{Forecast Availability}\n    a3[Mark as Todo]\n    a8[Scan / Receive Product]\n    a9{Validate Transfer}\n    done([สิ้นสุด])\n  end\n\n  subgraph Warehouse\n    a4[[Picking Operations]]\n    a5[Define Package and Quantity]\n    a6{Check Availability}\n    a7[Delivery Operations]\n  end\n\n  %% Success Flows\n  start e1@--> a1\n  a1 e2@--> a2\n  a2 e3@-->| Available | a3\n  a3 e4@-->| Status: Waiting | a4\n  a4 e5@--> a5\n  a5 e6@--> a6\n  a6 e7@-->| Status: Ready | a7\n  a7 e8@-->| Delivered | a8\n  a8 e10@--> a9\n  a9 e9@-->| Status: Done | done\n\n  %% Shortage Exception Flow\n  a2 -->| Not Available | a1\n\n  classDef attention fill:#fff2cc,stroke:#333,stroke-width:2px;\n  class start attention;\n  class done attention;\n  class a1 attention;\n  class a2 attention;\n  class a3 attention;\n  class a4 attention;\n  class a5 attention;\n  class a6 attention;\n  class a7 attention;\n  class a8 attention;\n  class a9 attention;\n\n  e1@{ animate: true}\n  e2@{ animate: true}\n  e3@{ animate: true}\n  e4@{ animate: true}\n  e5@{ animate: true}\n  e6@{ animate: true}\n  e7@{ animate: true}\n  e8@{ animate: true}\n  e9@{ animate: true}\n  e10@{ animate: true}"
   },
   {
     "id": "references-mermaid-swimlane-syntax-md",

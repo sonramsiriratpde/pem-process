@@ -87,6 +87,12 @@ export const App: React.FC = () => {
       if (activeProcess.filePath.includes('1.3_transfer_rm')) {
         return PROCESS_ITEMS.find(p => p.filePath.includes('1_transfer_to_quality_control'));
       }
+      if (activeProcess.filePath.includes('1.5_job_transfer_rm')) {
+        return PROCESS_ITEMS.find(p => p.filePath.includes('internal_transfer'));
+      }
+      if (activeProcess.filePath.includes('1.6_stock_auditing')) {
+        return PROCESS_ITEMS.find(p => p.filePath.includes('stock_auditing'));
+      }
     } else if (activeProcess.category === 'to-be') {
       if (activeProcess.filePath.includes('0_receipt_goods')) {
         return PROCESS_ITEMS.find(p => p.filePath.includes('1.1_receipt_rm'));
@@ -99,6 +105,12 @@ export const App: React.FC = () => {
       }
       if (activeProcess.filePath.includes('1_transfer_to_quality_control')) {
         return PROCESS_ITEMS.find(p => p.filePath.includes('1.3_transfer_rm'));
+      }
+      if (activeProcess.filePath.includes('internal_transfer')) {
+        return PROCESS_ITEMS.find(p => p.filePath.includes('1.5_job_transfer_rm'));
+      }
+      if (activeProcess.filePath.includes('stock_auditing')) {
+        return PROCESS_ITEMS.find(p => p.filePath.includes('1.6_stock_auditing'));
       }
     }
     return null;

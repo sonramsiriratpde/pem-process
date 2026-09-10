@@ -1,0 +1,103 @@
+swimlane-beta TB
+
+  subgraph Sale
+    start([เริ่มต้น])
+    done([สิ้นสุด])
+    s1[ได้รับ Requirement จากลูกค้า]
+    s2[เอกสาร TOR]
+  end
+
+  subgraph Engineering
+    eng1[จัดทำ Compile List, BOQ]
+    eng2[Complie List, BOQ]
+    eng3[พูดคุย/ปรับแบบ]
+    eng4{ลูกค้าอนุมัติ}
+    eng5[สร้าง M-BOM]
+    eng6[สร้าง WIP 5 Station]
+    eng7[จำทำ M-BOM ตาม Station]
+  end
+
+  subgraph Electrical
+    elec1[จัดทำแบบ Electrical]
+    elec2[แบบ Electrical 2D PDF]
+    elec3[จัดทำ BOM และ BOQ]
+    elec4[BOM และ BOQ]
+    elec5[ทำแบบสำหรับผลิต Electrical]
+    elec6[แบบผลิต Electrical]
+  end
+
+  subgraph Mechanical
+    mech1[นำข้อมูล Electrical มาใช้ออกแบบ 3D]
+    mech2{RM ใหม่}
+    mech3[สร้าง Code RM]
+    mech4[สร้าง Unique Code]
+    mech5[Running Code]
+    mech6[แปลงไฟล์ Solid Work 3D]
+    mech7[Save to Team Center]
+    mech8[ทำแบบสำหรับผลิต Mechanical]
+    mech9[Save to Team Center]
+    mech10[Export 3D > E-BOM]
+    mech11{ส่งแบบ Mechanical เข้าระบบ Approve}
+  end
+
+  subgraph Production
+    prod[ดึงข้อมูลแบบผลิตมาใช้งาน]
+  end
+
+  %% Success Flows
+  start e1@--> s1
+  s1 e2@--> s2
+  s2 e3@--> eng1
+  eng1 e4@--> eng2
+  eng2 e5@--> eng3
+  eng3 e6@--> eng4
+  eng4 e7@--> eng5
+  eng5 e8@--> eng6
+  eng6 e9@--> eng7
+  eng7 e10@--> elec1
+  elec1 e11@--> elec2
+  elec2 e12@--> elec3
+  elec3 --> elec4
+  elec4 --> elec5
+  elec5 --> elec6
+  mech1 --> mech2
+  mech2 --> mech3
+  mech3 --> mech4
+  mech4 --> mech5
+  mech5 --> mech6
+  mech6 --> mech7
+  mech7 --> mech8
+  mech8 --> mech9
+  mech9 --> mech10
+  mech10 -->mech11
+  mech11 -->prod
+  prod --> done
+
+  classDef attention fill:#fff2cc,stroke:#333,stroke-width:2px;
+  class start attention;
+  class done attention;
+  
+  class a1 attention;
+  class a2 attention;
+  class a3 attention;
+  class a4 attention;
+  class a5 attention;
+  class a6 attention;
+  class a7 attention;
+  class a8 attention;
+  class a9 attention;
+  class a10 attention;
+  class a11 attention;
+
+  e1@{ animate: true}
+  e2@{ animate: true}
+  e3@{ animate: true}
+  e4@{ animate: true}
+  e5@{ animate: true}
+  e6@{ animate: true}
+  e7@{ animate: true}
+  e8@{ animate: true}
+  e9@{ animate: true}
+  e10@{ animate: true}
+  e11@{ animate: true}
+  e12@{ animate: true}

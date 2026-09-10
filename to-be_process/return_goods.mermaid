@@ -1,0 +1,41 @@
+swimlane-beta TB
+  subgraph Return
+    start([เริ่มต้น])
+    done([สิ้นสุด])
+
+    rt1[[Goods Receipt]]
+    rt2[Return]
+    rt3[Specify Quantity]
+    
+    %% Return for Exchange
+    rt4{Return for
+    Exchange}
+    rt5[Create Goods Receipt]
+    rt6[Validate]
+
+    %% Return
+  end
+
+  subgraph Vendor/Supplier
+    sup1[Signature]
+  end
+
+  %% Create backorder
+  start e1@--> rt1
+  rt1 e2@-->| Status: Done | rt2
+  rt2 e3@--> rt3
+  rt3 --> rt4
+  rt4 --> rt5
+  rt5 -->| WH/OUT | sup1
+
+  classDef attention fill:#fff2cc;
+  class start attention;
+  class done attention;
+
+  class rt1 attention;
+  class rt2 attention;
+  class rt3 attention;
+
+  e1@{ animate: true}
+  e2@{ animate: true}
+  e3@{ animate: true}

@@ -1,0 +1,42 @@
+swimlane-beta TB
+
+  subgraph Quality Assurance
+    start([เริ่มต้น])
+    done([สิ้นสุด])
+    
+    qa1[[Receipt]]
+    qa2[Validate]
+    qa3{Qauntity Fulfillment}
+    qa4[[Internal Transfer]]
+  end
+
+  subgraph Backorder
+    bo1[[Create Backorder]]
+  end
+
+  %% Success Flows
+  start e1@-->| Status: Waiting| qa1
+  qa1 e2@-->| Status: Ready | qa2
+  qa2 e3@-->| Status: Done | qa3
+  qa3 e4@--> | Meet | qa4
+  qa4 e5@--> done
+
+  %% Create Back Order
+  qa3 --> bo1
+  bo1 --> qa4
+
+  classDef attention fill:#fff2cc;
+  class start attention;
+  class sent attention;
+  class qa1 attention;
+  class qa2 attention;
+  class qa3 attention;
+  class qa4 attention;
+  class done attention;
+
+  e1@{ animate: true}
+  e2@{ animate: true}
+  e3@{ animate: true}
+  e4@{ animate: true}
+  e5@{ animate: true}
+  e5@{ animate: true}

@@ -1,14 +1,3 @@
-# Warehouse (Inbound)
-
-**Follow to lean approach:**
-
-1. Keep it High-Level: Focus only on the "happy path"  (the main successful workflow)
-2. Use Simple Shapes: Stick to basic rectangles for step and diamonns for decisions. Avoid overly strict BPMN or UML notation rules that require extra explanation.
-
-## กระบวนการรับ RM
-
-```mermaid
-%% กระบวนการรับ RM ตามที่ Supplier จัดส่ง
 swimlane-beta TB
 
   subgraph Warehouse
@@ -63,4 +52,3 @@ swimlane-beta TB
   class verification attention;
   class validated attention;
   class done attention;
-```

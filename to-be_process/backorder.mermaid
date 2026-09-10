@@ -1,0 +1,31 @@
+swimlane-beta TB
+  subgraph Backorder
+    start([เริ่มต้น])
+    done([สิ้นสุด])
+    bo1{Create Backorder}
+    bo2[Created Backorder]
+
+    %% No Backorder
+    bo3[No Backorder]
+  end
+
+  %% Create backorder
+  start e1@--> bo1
+  bo1 e2@-->| Yes | bo2
+  bo2 e3@--> done
+
+  %% No backorder
+  bo1 -->| No | bo3
+  bo3 --> done
+
+  classDef attention fill:#fff2cc;
+  class start attention;
+  class done attention;
+
+  class bo1 attention;
+  class bo2 attention;
+  class bo3 attention;
+
+  e1@{ animate: true}
+  e2@{ animate: true}
+  e3@{ animate: true}

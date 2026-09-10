@@ -1,0 +1,41 @@
+swimlane-beta TB
+
+  subgraph Warehouse
+    start([เริ่มต้น])
+    done([เสร็จสิ้น])
+
+    %% Success Flows
+    wh1{Verify Delivery Order}
+    wh2[Verify Product, Package, and Quantity]
+    wh3[Determine storage location and Quantity]
+    wh4[Validate]
+  end
+
+  subgraph Purchase
+    pu1[[Purchase Order]]
+  end
+
+  %% Success Flows
+  start e1@-->wh1
+  wh1 e2@-->|Correct| wh2
+  wh2 e3@-->|Status: Ready| wh3
+  wh3 e4@-->|Status: Ready| wh4
+  wh4 e5@-->|Status: Done| done
+
+  %% Failure Request to revise Purchase Order
+  wh1 -->|Fail: request to revise Purchase Order| pu1
+  pu1 --> done
+
+  e1@{ animate: true}
+  e2@{ animate: true}
+  e3@{ animate: true}
+  e4@{ animate: true}
+  e5@{ animate: true}
+
+  classDef attention fill:#fff2cc,stroke:#333,stroke-width:2px;
+  class start attention;
+  class done attention;
+  class wh1 attention;
+  class wh2 attention;
+  class wh3 attention;
+  class wh4 attention;

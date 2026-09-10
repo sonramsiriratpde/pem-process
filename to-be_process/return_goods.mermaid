@@ -1,32 +1,39 @@
 swimlane-beta TB
-  subgraph Return
+
+  subgraph Delivery Orders
     start([เริ่มต้น])
     done([สิ้นสุด])
 
     rt1[[Goods Receipt]]
-    rt2[Return]
-    rt3[Specify Quantity]
+    rt2[Specify Quantity]
     
     %% Return for Exchange
-    rt4{Return for
-    Exchange}
-    rt5[Create Goods Receipt]
-    rt6[Validate]
+    rt3{Return 
+    for Exchange}
+    rt4[Create Goods Receipt]
 
     %% Return
+    rt5[Return]
   end
 
   subgraph Vendor/Supplier
-    sup1[Signature]
+    sup1[Validate]
+    sup2[Signature]
   end
 
-  %% Create backorder
   start e1@--> rt1
   rt1 e2@-->| Status: Done | rt2
   rt2 e3@--> rt3
   rt3 --> rt4
-  rt4 --> rt5
+  
+  %% Return for Exchange
+  rt4 -->| Yes | rt5
   rt5 -->| WH/OUT | sup1
+  sup1 -->| Delivery Note | sup2
+  sup2 --> done
+
+  %% Return
+  rt3 -->| No | rt5
 
   classDef attention fill:#fff2cc;
   class start attention;

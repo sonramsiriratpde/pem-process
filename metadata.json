@@ -1,0 +1,8 @@
+{
+  "name": "PEM Process Explorer",
+  "description": "Interactive business process and swimlane diagram explorer for PEM As-Is and To-Be Odoo ERP workflows.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

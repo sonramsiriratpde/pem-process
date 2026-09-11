@@ -1,0 +1,115 @@
+%% 1.2.2 กระบวนการทํางานประเภทงาน R&D : New Product (PEM102)
+swimlane-beta TB
+
+  subgraph Customer
+    start([เริ่มต้น])
+
+    cus1[ส่ง TOR]
+    cus2[เอกสาร TOR]
+    %% 
+    cus3[ส่ง Final TOR กลับมา]
+  end
+
+  subgraph Engineering
+    eng1[แบ่ง Type และตรวจสอบความสามารถผลิต]
+    eng2[วางแผนผลิต/ให้ความเห็น]
+    eng3[คำนวณค่าทางไฟฟ้า]
+    eng4[นำ Drawing เข้าระบบ ISO]
+    eng5[เปิด Project]
+    eng6[จัดทำ E-BOM และประเมินค่าใช้จ่าย RM]
+    eng7[E-BOM]
+    eng8[ใช้ไฟล์คำนวณค่าทางไฟฟ้าทำแบบผลิต/แบบบันทึกข้อมูล]
+    eng9{ทดสอบชิ้นงาน}
+    eng10[ได้รับ Test Report]
+    eng11[จัดทำเอกสารเพื่อ E-bidding]
+    eng12[จำทำ M-BOM และ Final แบบผลิต]
+    eng13[นำเอกสารเข้า ISO]
+  end
+
+
+  subgraph Mechanical
+    mech1[ออกแบบ Drawing/Tooling/Jig]
+  end
+
+  subgraph Accounting
+    acc1[อนุมัติใช้งบ]
+  end
+
+
+  subgraph Purchasing
+    done([สิ้นสุด])
+    pu1[เปิด PR และ Sourcing]
+    pu2[รับโอน Asset และ ปิดโครงการ]
+  end
+   
+  subgraph Production
+    prod1[รับแบบผลิตและเริ่มผลิต]
+    prod2{ส่งผลแบบ
+    บันทึกให้ฝ่าย}
+    prod3[สร้าง M-BOM]
+  end
+  
+  %% Flow
+  start --> cus1
+  cus1 --> cus2
+  cus2 --> eng1
+  eng1 --> eng2
+  eng2 --> cus3
+  cus3 --> eng3
+  eng3 --> mech1
+  mech1 --> eng4
+  eng4 --> eng5
+  eng5 --> acc1
+  acc1 --> eng6
+  eng6 --> eng7
+  eng7 --> pu1
+  pu1 --> eng8
+  eng8 --> prod1
+  prod1 --> prod2
+  prod2 -->| Pass | eng9
+  eng9 -->| Pass | eng10
+  eng10 --> eng11
+  eng11 --> eng12
+  eng12 --> prod3
+  prod3 --> eng13
+  eng13 --> pu2
+  pu2 --> done
+
+  %% Fail
+  prod2 -->| Fail | eng3
+  eng9 -->| Fail | eng3
+
+  %% Success flow attention
+  classDef attention fill:#fff2cc,stroke:#333,stroke-width:2px;
+  class start attention;
+  class done attention;
+
+  %% Animated success flow
+  %% e1@{ animate: true}
+  %% e2@{ animate: true}
+  %% e3@{ animate: true}
+  %% e4@{ animate: true}
+  %% e5@{ animate: true}
+  %% e6@{ animate: true}
+  %% e7@{ animate: true}
+  %% e8@{ animate: true}
+  %% e9@{ animate: true}
+  %% e10@{ animate: true}
+  %% e11@{ animate: true}
+  %% e12@{ animate: true}
+  %% e13@{ animate: true}
+  %% e14@{ animate: true}
+  %% e15@{ animate: true}
+  %% e16@{ animate: true}
+  %% e17@{ animate: true}
+  %% e18@{ animate: true}
+  %% e19@{ animate: true}
+  %% e20@{ animate: true}
+  %% e21@{ animate: true}
+  %% e22@{ animate: true}
+  %% e23@{ animate: true}
+  %% e24@{ animate: true}
+  %% e25@{ animate: true}
+  %% e26@{ animate: true}
+  %% e27@{ animate: true}
+  %% e28@{ animate: true}

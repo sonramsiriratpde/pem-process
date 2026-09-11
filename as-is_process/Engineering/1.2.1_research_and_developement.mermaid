@@ -1,0 +1,116 @@
+%% 1.2.1 กระบวนการทํางานประเภทงาน R&D : New Product
+swimlane-beta TB
+
+  subgraph Sale
+    start([เริ่มต้น])
+    s1[ส่ง Requirement]
+    s2[TOR/OI]
+
+    %% Success Flows
+    start e1@--> s1
+    s1 e2@--> s2
+  end
+
+  subgraph Engineering
+    eng1[วิเคราะห์ตลาดและคู่แข่ง]
+    eng2[ประเมินความสามารถในการผลิต]
+    eng3[จัดทำ Financial Feasibility และขออนมุัติ Budget]
+    eng4[เปิด Project]
+    eng5[จำทำ E-BOM]
+    eng6[จัดหา Supplier/OEM และขอตัวอย่าง]
+    eng7{ทดสอบของตัวอย่าง}
+
+    %% Pass
+    eng8[จัดทำ Prototype จริง]
+    eng9[ทดสอบ Pre-Prototype]
+    eng10[จัดทำ E-BOM และ Solid Work]
+    eng11{ส่ง Type Test}
+
+    %% Pass
+    eng12[จำทำ M-BOM, WIP, Final]
+
+    %% Done
+    eng13[ปิด Project]
+    eng14[ทำ Drawing และ WI เข้า ISO]
+    done([สิ้นสุด])
+
+    %% Sample test fail
+    eng15[ทำ Short Report]
+    eng16[แก้ไขกับ Supplier]
+
+    %% Success Flows
+    s2 e3@--> eng1
+    eng1 --> eng2
+    eng2 --> eng3
+    eng3 --> eng4
+    eng4 --> eng5
+    eng5 --> eng6
+    eng6 --> eng7
+    eng7 -->| Pass | eng8
+    eng8 --> eng9
+    eng9 --> eng10
+    eng10 --> eng11
+    eng11 -->| Pass | eng12
+    eng13 --> eng14
+    eng14 --> done
+
+    %% Fail Flows
+    eng7 -->| Fail | eng15
+    eng15 --> eng16
+    eng16 --> eng7
+
+    %% Type Test Fail
+    eng11 -->| Fail | eng15
+  end
+
+  subgraph Production
+    prod1[ทำ Small Lot]
+    prod2[ส่งผล Small Lot ให้ Engineering]
+
+    %% Success Flows
+    eng12 --> prod1
+    prod1 --> prod2
+  end
+  
+  subgraph S&OP
+    sop1[สร้าง M-BOM Final]
+
+    %% Success Flows
+    prod2 --> sop1
+    sop1 --> eng13
+  end
+
+  %% Success flow attention
+  classDef attention fill:#fff2cc,stroke:#333,stroke-width:2px;
+  class start attention;
+  class done attention;
+
+  %% Animated success flow
+  e1@{ animate: true}
+  e2@{ animate: true}
+  e3@{ animate: true}
+  %% e4@{ animate: true}
+  %% e5@{ animate: true}
+  %% e6@{ animate: true}
+  %% e7@{ animate: true}
+  %% e8@{ animate: true}
+  %% e9@{ animate: true}
+  %% e10@{ animate: true}
+  %% e11@{ animate: true}
+  %% e12@{ animate: true}
+  %% e13@{ animate: true}
+  %% e14@{ animate: true}
+  %% e15@{ animate: true}
+  %% e16@{ animate: true}
+  %% e17@{ animate: true}
+  %% e18@{ animate: true}
+  %% e19@{ animate: true}
+  %% e20@{ animate: true}
+  %% e21@{ animate: true}
+  %% e22@{ animate: true}
+  %% e23@{ animate: true}
+  %% e24@{ animate: true}
+  %% e25@{ animate: true}
+  %% e26@{ animate: true}
+  %% e27@{ animate: true}
+  %% e28@{ animate: true}

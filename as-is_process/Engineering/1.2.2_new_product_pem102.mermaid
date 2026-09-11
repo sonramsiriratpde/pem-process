@@ -1,0 +1,125 @@
+%% 1.2.2 กระบวนการทํางานประเภทงาน R&D : New Product (PEM102)
+swimlane-beta TB
+
+  subgraph Engineering
+    start([เริ่มต้น])
+    eng1[รับ OI/เอกสารนโยบาย]
+    eng2[จัดทำแนวทางการ Develop/เจรจา Partner]
+    eng3[สร้าง Code ใน Team Center]
+
+    %% Create M-BOM
+    eng4[สร้าง M-BOM]
+    eng5[แบ่ง Station ร่วมกับ Production]
+    eng6[ข้อมูล Station]
+    
+    eng7[Approve การแบ่ง Station]
+
+    %% BOM Revise
+    eng8[ทำ Revision ใหม่และใบปะหน้า]
+  end
+
+
+  subgraph Mechanical
+    mech1[ทำแบบ Mechanical 3D]
+    mech2{RM ใหม่}
+    mech3[สร้าง Code RM]
+    mech4[สร้าง Unique Code]
+    mech5[Running Code]
+    mech6[แปลงไฟล์ Solid Work 3D]
+    mech7[Save to Team Center]
+    mech8{ส่งแบบ Mechanical 
+    เข้าระบบ Approve}
+  end
+
+  subgraph Production
+    prod1[ดึงข้อมูลผลิตมาใช้งาน]
+    prod2[Approve การแบ่ง Station]
+
+    %% BOM Revise
+    prod3[แจ้ง Engineer แก้ไข M-BOM]
+  end
+
+  subgraph Sale
+    s1[Disscuss การเลือก Product เพื่อพัฒนา]
+  end
+  
+  subgraph Electrical
+    elec1[ทำแบบ Electrical 2D]
+  end
+  subgraph S&OP
+    sop1[Approve การแบ่ง Station]
+    sop2[สร้าง BOM ตาม Station]
+    sop3{ไม่มีการแก้ไข}
+    done([สิ้นสุด])
+  end
+
+  %% Success flow
+  start --> eng1
+  eng1 --> s1
+  s1 --> eng2
+  eng2 --> elec1
+  elec1 --> eng3
+  eng3 --> mech1
+  mech1 --> mech2
+  mech2 -->| Yes | mech3
+  mech3 --> mech4
+  mech4 --> mech5
+  mech5 --> mech6
+  mech6 --> mech7
+  mech7 --> mech8
+  mech8 -->| Approved | prod1
+  prod1 --> eng4
+  eng4 --> eng5
+  eng5 --> eng6
+  eng6 --> prod2
+  prod2 --> eng7
+  eng7 --> sop1
+  sop1 --> sop2
+  sop2 --> sop3
+  sop3 -->| Yes | done
+
+  %% Existing RM
+  mech2 -->| No | mech5
+
+  %% Not approve
+  mech8 -->| Not approved| mech1
+
+  %% BOM Revise
+  sop3 -->| No | prod3
+  prod3 --> eng8
+  eng8 --> prod2
+
+  %% Success flow attention
+  classDef attention fill:#fff2cc,stroke:#333,stroke-width:2px;
+  class start attention;
+  class done attention;
+
+  %% Animated success flow
+  %% e1@{ animate: true}
+  %% e2@{ animate: true}
+  %% e3@{ animate: true}
+  %% e4@{ animate: true}
+  %% e5@{ animate: true}
+  %% e6@{ animate: true}
+  %% e7@{ animate: true}
+  %% e8@{ animate: true}
+  %% e9@{ animate: true}
+  %% e10@{ animate: true}
+  %% e11@{ animate: true}
+  %% e12@{ animate: true}
+  %% e13@{ animate: true}
+  %% e14@{ animate: true}
+  %% e15@{ animate: true}
+  %% e16@{ animate: true}
+  %% e17@{ animate: true}
+  %% e18@{ animate: true}
+  %% e19@{ animate: true}
+  %% e20@{ animate: true}
+  %% e21@{ animate: true}
+  %% e22@{ animate: true}
+  %% e23@{ animate: true}
+  %% e24@{ animate: true}
+  %% e25@{ animate: true}
+  %% e26@{ animate: true}
+  %% e27@{ animate: true}
+  %% e28@{ animate: true}
